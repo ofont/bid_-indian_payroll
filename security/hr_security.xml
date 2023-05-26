@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="base.group_sub_manager_user" model="res.groups">
+			<field name="name">Sub-Manager</field>
+			<field name="category_id" ref="base.module_category_human_resources" />
+			<field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+			<field name="comment">the user will be able to approve leaves created
+				by
+				employees.
+			</field>
+		</record>
+
+		<record id="hr.group_hr_user" model="res.groups">
+			<field name="name">Officer</field>
+			<field name="category_id" ref="base.module_category_human_resources" />
+			<field name="implied_ids" eval="[(4, ref('base.group_sub_manager_user'))]" />
+			<field name="comment">the user will be able to approve document created
+				by employees.
+			</field>
+		</record>
+		<record id="my_employee_group_hr_user" model="res.groups">
+			<field name="name">My Employee</field>
+			<field name="category_id" ref="base.module_category_human_resources" />
+			<field name="implied_ids" eval="[(4, ref('base.group_sub_manager_user'))]" />
+			<field name="comment">the user will be able to approve document created
+				by employees.
+			</field>
+		</record>
+		<!-- <record model='ir.rule' id="leaves_request_authorized_emplopyee">
+			<field name="name">Only authorized EMployee can see his leaves</field>
+			<field name="model_id" ref="model_hr_holidays" />
+			<field name="groups" eval="[(4,ref('pragtech_contracting_v10.group_manager'))]"></field>
+			<field name="domain_force">[("employee_id.user_id.id", "=", user.id)]</field>
+			<field name="perm_read">1</field>
+			<field name="perm_write">1</field>
+			<field name="perm_unlink">1</field>
+			<field name="perm_create">0</field>
+			</record> -->
+		<!-- <record id="hr_holidays.property_rule_holidays_employee12"
+			model="ir.rule">
+			<field name="name">Employee Holidays</field>
+			<field name="model_id" ref="model_hr_leave" />
+			<field name="domain_force">[('user_id.id','=',user.id)]
+			</field>
+			<field name="perm_create" eval="True" />
+			<field name="perm_write" eval="True" />
+			<field name="perm_unlink" eval="True" />
+			<field name="perm_read" eval="True" />
+			<field name="groups" eval="[(4,ref('my_employee_group_hr_user'))]" />
+		</record> -->
+
+		<!-- <record id="hr_emp_leaves111" model="ir.rule">
+			<field name="name">Employee Holidays indian_payroll</field>
+			<field name="model_id" ref="model_hr_holidays" />
+			<field name="domain_force">['|',('employee_id.parent_id.user_id.id', '=',
+				user.id),('employee_id.hr_id.user_id.id', '=', user.id),('state',
+				'in',['validate1','cancel','confirm','action_refuse','action_validate'])]
+			</field>
+			<field name="perm_read" eval="True" />
+			<field name="perm_create" eval="False" />
+			<field name="perm_write" eval="True" />
+			<field name="perm_unlink" eval="False" />
+			<field name="groups" eval="[(4,ref('base.group_sub_manager_user'))]" />
+		</record> -->
+
+
+	</data>
+</odoo>

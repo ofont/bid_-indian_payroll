@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="report_payslip_paperformat" model="report.paperformat">
+			<field name="name">Payslip</field>
+			<field name="default" eval="True" />
+			<field name="format">A4</field>
+			<field name="orientation">Portrait</field>
+			<field name="header_line" eval="False" />
+			<field name="header_spacing">5</field>
+			<field name="margin_top">5</field>
+			<field name="dpi">90</field>
+		</record>
+		<template id="report_payslip_header_inherit_unocoin"
+			inherit_id="web.internal_layout">
+			<xpath expr="//div[@class='header']" position="replace">
+				<div class="header">
+				</div>
+			</xpath>
+
+		</template>
+
+		<!-- Inherit quotation report (from module hr_payslip) -->
+		<template id="report_payroll_inherit_pragmatic_payroll" inherit_id="hr_payroll.report_payslip">
+			<!-- Finds the first table with as class table table-condensed and gives 
+				the ability to modify it This will replace everything withing tr (including 
+				tr) -->
+
+			<xpath expr="//h2" position="replace">
+				<div align="center">
+					<h4>
+					<td>
+						<strong><span t-field="o.employee_id.company_id.name" /></strong>
+					</td>
+					</h4>
+					<h5>
+					<td>
+						<strong><span t-field="o.employee_id.company_id.partner_id.street" /></strong>
+					</td>
+					</h5>
+				</div>
+
+			</xpath>
+			<xpath expr="//p" position="replace">
+				<strong><h5 align="center">Pay Slip</h5></strong>
+				<strong><h5><p style="font-size:85%;" t-field="o.name" /></h5></strong>
+			</xpath>
+
+			<xpath expr="//table[@class='table table-sm table-bordered']"
+				position="replace">
+
+				<!-- <t t-set="sum" t-value="0.0" /> <p t-foreach="o.worked_days_line_ids.number_of_days" 
+					t-as="worked_days"> <t t-set="sum" t-value="sum+worked_days" /> </p> -->
+				<table class="table table-condensed table-bordered" border="5">
+					<thead style="font-size:90%; ">
+						<tr  style="background-color:dodgerBlue;">
+							<th colspan="2" style="width: 30%; ">
+								<strong style="color:black;">Employee Details</strong>
+							</th>
+							<th colspan="5" style="width: 30%;">
+								<strong style="color:black;">Payment Details</strong>
+							</th>
+							<th colspan="2" style="width: 30%;">
+								<strong style="color:black;">Location Details</strong>
+							</th>
+						</tr>
+					</thead>
+					<tbody style="font-size:70%;">
+						<tr>
+							<td>
+								<strong>Emp. No.</strong>
+							</td>
+							<td>
+								<span t-field="o.employee_id.code" />
+							</td>
+							<td colspan="2">
+								<strong>Bank Name</strong>
+							</td>
+							<td colspan="3">
+								<span t-field="o.employee_id.bank_account_id.bank_id" />
+							</td>
+							<td>
+								<strong>Location</strong>
+							</td>
+							<td>
+								<span t-field="o.employee_id.work_location" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>Designation</strong>
+							</td>
+							<td>
+								<span t-field="o.employee_id.job_id" />
+							</td>
+							<td colspan="2">
+								<strong>Account Number</strong>
+							</td>
+							<td colspan="3">
+								<span t-field="o.employee_id.bank_account_id.acc_number" />
+							</td>
+							<td>
+								<strong>Base Br</strong>
+							</td>
+							<td>
+								<span t-field="o.employee_id.base_branch" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>PAN</strong>
+							</td>
+							<td>
+								<span t-field="o.employee_id.permanent_account_number" />
+							</td>
+
+							<td colspan="2">
+								<strong>Days paid</strong>
+							</td>
+							<td colspan="3">
+								<t t-esc="o.get_no_days_paid()" />
+
+
+							</td>
+							<td>
+								<strong>No. of Days</strong>
+							</td>
+							<td>
+								<t t-set="days" t-value="0.0" />
+								<p t-foreach="o.worked_days_line_ids" t-as="worked_days">
+									<t t-set="days" t-value="days+worked_days.number_of_days" />
+								</p>
+								<t t-esc="days" />
+							</td>
+
+						</tr>
+						<tr>
+							<td>
+								<strong>UAN</strong>
+							</td>
+							<td>
+								<span t-field="o.employee_id.universal_account_number" />
+							</td>
+
+							<td colspan="2">
+								<strong>DOB</strong>
+							</td>
+							<td colspan="3">
+								<span t-field="o.employee_id.birthday" />
+							</td>
+							<td>
+								<strong>Date of Joining</strong>
+							</td>
+							<td>
+								<span t-field="o.employee_id.joining_date" />
+							</td>
+
+						</tr>
+						<tr>
+							<td>
+								<strong></strong>
+							</td>
+							<td></td>
+
+							<td colspan="2">
+								<strong>Leave Balance</strong>
+							</td>
+							<td>
+								EL:
+								<t t-esc="o.get_no_leaves('EL')" />
+							</td>
+							<td>
+								SL:
+								<t t-esc="o.get_no_leaves('SL')" />
+							</td>
+							<td>
+								CL:
+								<t t-esc="o.get_no_leaves('CL')" />
+							</td>
+							<td>
+								VL:
+								<t t-esc="o.get_no_leaves('VL')" />
+							</td>
+							<td></td>
+
+						</tr>
+					</tbody>
+					<!-- <tr> <td> <strong>Reference</strong> </td> <td> <span t-field="o.number" 
+						/> </td> <td colspan="2"> <strong>Date From</strong> </td> <td colspan="3"> 
+						<span t-field="o.date_from" /> </td> <td> <strong>Date To</strong> </td> 
+						<td> <span t-field="o.date_to" /> </td> </tr> -->
+
+				</table>
+			</xpath>
+
+			<xpath expr="//table[@class='table table-sm']" position="replace">
+
+				<div style="width:50%; float:left; ">
+					<table class="table"
+						style="float:left; width:100%; margin-bottom:0px!important;"
+						border="1">
+						<thead style="font-size:90%;">
+							<tr style="background-color:dodgerBlue;">
+								<th width="70%" style="color:Black;">Earnings</th>
+								<th width="30%" style="color:Black; text-align:center;">Current(INR)</th>
+							</tr>
+						</thead>
+						<tbody style="font-size:80%;">
+							<tr t-foreach="o.line_ids" t-as="line">
+								<t
+									t-if="line.code != 'NET' and line.code != 'GROSS' and line.code != 'ANNUAL' and line.total &gt; 0">
+									<td style="border: 1px solid #161616;padding:3px;text-align: left;">
+										<span t-field="line.name" />
+									</td>
+									<td style="border: 1px solid #161616;padding:3px;text-align: right">
+										<span t-field="line.total" />
+									</td>
+								</t>
+							</tr>
+						</tbody>
+
+						<!-- <tfoot> <tr> <td>Total Earnings</td> <td><t t-foreach="o.line_ids" 
+							t-as="line"> <t t-if="line.code == 'GROSS'"> <span t-field="line.total" /> 
+							</t> </t></td> </tr> </tfoot> -->
+
+					</table>
+				</div>
+
+				<div style="width:50%; float:left; margin-bottom:-40px;">
+					<table class="table" style="float:right;width:100%; margin-bottom:-40px;"
+						border="1">
+						<thead style="font-size:90%;">
+							<tr style="background-color:dodgerBlue;">
+								<th width="70%" style="color:Black; text-align:left;">Deductions</th>
+								<th width="30%" style="color:Black; text-align:center;">
+									Amount
+									<small>(INR)</small>
+								</th>
+							</tr>
+						</thead>
+						<tbody style="font-size:80%;">
+							<t t-set="deduct" t-value="0.0" />
+							<tr t-foreach="o.line_ids" t-as="line">
+								<t t-if="line.total &lt; 0">
+									<td style="border: 1px solid #161616;padding:3px;text-align: left">
+										<span t-field="line.name" />
+									</td>
+									<td style="border: 1px solid #161616;padding:3px;text-align: right">
+										<span t-field="line.total" />
+										<t t-set="deduct" t-value="deduct+line.total" />
+									</td>
+								</t>
+							</tr>
+						</tbody>
+
+						<!-- <tfoot> <tr> <td>Total Deductions</td> <td><t t-esc="round(deduct, 
+							2)" /></td> </tr> </tfoot> -->
+					</table>
+				</div>
+
+				<!-- <div style="width:100%; float:left; "> <table class="table" style="float:left; 
+					width:50%; margin-bottom:10px!important;" border="1"> <thead style="font-size:90%;"> 
+					<tr> <th width="70%" style="text-align:left;">Total Earnings</th> <t t-foreach="o.line_ids" 
+					t-as="line"> <t t-if="line.code == 'GROSS'"> <span t-field="line.total" /> 
+					</t> </t> </tr> </thead> </table> <table class="table" style="width:50%; 
+					margin-bottom:-40px;" border="1"> <thead style="font-size:90%;"> <tr > <th 
+					width="70%" style="text-align:left;">Total Deductions</th> <th width="30%" 
+					style="text-align:right;"> <t t-esc="round(deduct, 2)" /> </th> </tr> </thead> 
+					</table> </div> -->
+
+
+				<table class="table" border="1">
+					<tr
+						style="border: 1px solid #161616;padding:3px; font-size:90%; border-top:2px solid black!important;">
+						<th width="35%" style="text-align: left">Total Earnings</th>
+						<th width="15%" style="text-align: right">
+							<t t-foreach="o.line_ids" t-as="line">
+								<t t-if="line.code == 'GROSS'">
+									<span t-field="line.total" />
+								</t>
+							</t>
+						</th>
+						<th width="35%" style="text-align: left">Total Deductions</th>
+						<th width="15%" style="text-align: right">
+							<t t-esc="round(deduct, 2)" />
+						</th>
+					</tr>
+				</table>
+
+				<div style="width:100%; float:left; margin:0px;">
+
+					<div style="width:218px; float:left; margin:auto;">
+						<div
+							style="border:solid 1px #000; border-right: 0px solid #000; width:120px; height:75px; float:left; margin:0px; padding:5px; background-color:dodgerBlue; color:#fff; text-align:center; ">
+							<span>
+								<b>Retirals</b>
+							</span>
+							<br />
+						as on month end
+						</div>
+
+						<div style="float:right; margin-top:2px; width:98px;">
+							<span
+								style="background-color:dodgerBlue; padding:5px; font-size:12px; height:40px; float: left;margin-top: -2px; border:1px solid #000; width: 100%;">Provident Fund*</span>
+							<span
+								style="float: left; border:1px solid #000; border: 1px solid #000; 
+    width: 100%; padding-left: 15px;">
+								<!-- <t t-esc="o.get_total_pf()" /> -->
+							</span>
+						</div>
+					</div>
+
+
+
+
+					<div style="float:right; width:230px; border: 1px solid #000;">
+
+						<div
+							style=" background-color: dodgerBlue; color: white;
+                                   font-size: 20px; height:50px; border-right: 1px solid #000; 
+                                    padding-left: 8px; text-align: left; 
+                                   vertical-align: middle; width: 119px; float:left; margin:0px; line-height:52px;">
+							<b>Net Pay</b>
+							<small style="font-size:55%;">(INR)</small>
+						</div>
+
+						<span
+							style="line-height:45px; text-align:center; font-size: 20px; padding-left:25px;">
+							<t t-set="NET" t-value="0.0" />
+							<t t-foreach="o.line_ids" t-as="line">
+								<t t-if="line.code == 'NET'">
+									<t t-set="NET" t-value="line.total" />
+								</t>
+							</t>
+							<t t-esc="round(NET)" />
+						</span>
+					</div>
+
+
+				</div>
+				<br></br>
+				<br></br>
+				<p style="font-size:85%;">*Total PF collected till date</p>
+
+				`
+				<!-- <t t-foreach="o.get_right_rows()" t-as="rows"></t> -->
+				<div style="width:100%; float:left; ">
+					<table class="table"
+						style="float:left; width:70%; margin-bottom:10px!important;"
+						border="1">
+						<thead style="font-size:90%;">
+							<tr style="background-color:dodgerBlue;">
+								<th colspan="4" style="color:Black;">Projected annual Tax Information</th>
+							</tr>
+						</thead>
+						<tbody style="font-size:80%;">
+							<tr>
+								<td width="20%"
+									style="border: 1px solid #161616;padding:3px;text-align: left">Annual Income*</td>
+								<td width="13%"
+									style="border: 1px solid #161616;padding:3px;text-align: right">
+									<span t-field="o.total_income" />
+								</td>
+
+								<td width="20%"
+									style="border: 1px solid #161616;padding:3px;text-align: left">Net Tax Income r/o</td>
+								<td width="13%"
+									style="border: 1px solid #161616;padding:3px;text-align: right">
+									<span t-field="o.taxable_income" />
+								</td>
+							</tr>
+							<tr>
+								<td style="border: 1px solid #161616;padding:3px;text-align: left">Professional Tax</td>
+								<td style="border: 1px solid #161616;padding:3px;text-align: right">
+									<span t-field="o.total_prof_tax" />
+								</td>
+								<td style="border: 1px solid #161616;padding:3px;text-align: left">Total Tax Payable</td>
+								<td style="border: 1px solid #161616;padding:3px;text-align: right">
+									<span t-field="o.yearly_tds" />
+								</td>
+							</tr>
+							<tr>
+								<td style="border: 1px solid #161616;padding:3px;text-align: left">Chapter VIA relief</td>
+								<td style="border: 1px solid #161616;padding:3px;text-align: right">
+									<span t-field="o.total_declarations" />
+
+								</td>
+								<td style="border: 1px solid #161616;padding:3px;text-align: left">Tax Deducted till date</td>
+								<td style="border: 1px solid #161616;padding:3px;text-align: right">
+									<span t-field="o.recovered_tds" />
+								</td>
+							</tr>
+							<tr>
+								<td style="border: 1px solid #161616;padding:3px;text-align: left"></td>
+								<td style="border: 1px solid #161616;padding:3px;text-align: right"></td>
+								<td style="border: 1px solid #161616;padding:3px;text-align: left">Balance
+									Tax
+								</td>
+								<td style="border: 1px solid #161616;padding:3px;text-align: right">
+									<span t-esc="o.yearly_tds+o.recovered_tds" />
+								</td>
+							</tr>
+							<t t-foreach="o.get_left_rows()" t-as="rows">
+								<tr>
+									<t t-foreach="rows" t-as="new_val">
+										<td style="border: 1px solid #161616;padding:3px; height:22px">
+											<span t-esc="new_val" />
+										</td>
+									</t>
+								</tr>
+							</t>
+
+						</tbody>
+
+
+					</table>
+
+					<table class="table" style="float:right;width:30%; margin-bottom:-40px;"
+						border="1">
+						<thead style="font-size:90%;">
+							<tr style="background-color:dodgerBlue;">
+								<th colspan="2" style="color:Black;">Chapter VIA Relief</th>
+							</tr>
+						</thead>
+						<tbody style="font-size:80%;">
+
+							<t t-set="right_rows" t-value="0.0" />
+							<t t-foreach="o.get_section_total()" t-as="section">
+
+								<tr>
+									<t t-set="right_rows" t-value="right_rows+1" />
+									<t t-foreach="section" t-as="value">
+
+										<td style="border: 1px solid #161616;padding:3px;">
+											<span t-esc="value" />
+
+										</td>
+									</t>
+								</tr>
+							</t>
+
+
+							<t t-foreach="o.get_right_rows()" t-as="rows">
+								<tr>
+									<t t-foreach="rows" t-as="new_val">
+										<td style="border: 1px solid #161616;padding:3px; height:22px">
+											<span t-esc="new_val" />
+										</td>
+									</t>
+								</tr>
+							</t>
+
+
+						</tbody>
+					</table>
+
+
+				</div>
+
+
+				<div style="width:100%; float:left; ">
+					<table class="table"
+						style="float:left; width:70%; margin-bottom:0px!important;"
+						border="1">
+						<thead style="font-size:90%;">
+							<tr style="background-color:dodgerBlue;">
+								<th colspan="4" style="color:Black; text-align: left;">Investment Description</th>
+							</tr>
+						</thead>
+						<tbody style="font-size:70%;">
+							<!-- <tr> <td style="border: 1px solid #161616;padding:3px;text-align: 
+								left"></td> <td style="border: 1px solid #161616;padding:3px;text-align: 
+								right"> </td> <td style="border: 1px solid #161616;padding:3px;text-align: 
+								right"> </td> <td style="border: 1px solid #161616;padding:3px;text-align: 
+								right"> </td> </tr> -->
+							<t t-foreach="o.get_declaration_heads()" t-as="td">
+								<tr>
+
+									<t t-foreach="td" t-as="data">
+										<td style="border: 1px solid #161616;padding:3px;">
+											<span t-esc="data" />
+										</td>
+									</t>
+								</tr>
+							</t>
+						</tbody>
+
+
+					</table>
+
+					<table class="table" style="float:right;width:30%; margin-bottom:-40px;"
+						border="1">
+						<thead style="font-size:90%;">
+							<tr style="background-color:dodgerBlue;">
+								<th colspan="2" style="color:Black; height:35px"></th>
+							</tr>
+						</thead>
+						<tbody style="font-size:70%;">
+							<t t-foreach="o.get_lst_right_rows()" t-as="rows">
+								<tr>
+									<t t-foreach="rows" t-as="new_val">
+										<td style="border: 1px solid #161616;padding:3px; height:21px">
+											<span t-esc="new_val" />
+										</td>
+									</t>
+								</tr>
+							</t>
+						</tbody>
+					</table>
+
+
+				</div>
+
+
+
+				<!-- <div style="font-size:90%;">Please Note, Annual Income is after 
+					considering the above exemption - if any. </div> -->
+
+			</xpath>
+
+			<xpath expr="//p[@class='text-right']" position="replace">
+
+			</xpath>
+		</template>
+
+		<template id="report_payslip_footer_inherit" inherit_id="web.external_layout_standard">
+
+			<!-- <xpath expr="//div[@class='footer']" position="replace">
+				<div class="footer">
+					<div class="text-left">
+
+						<t t-if="o.get_current_date()">
+						<t t-esc="o.get_current_date()"/>
+						</t>
+
+					</div>
+
+					<div class="text-right"> <ul class="list-inline"> <li>Page</li> 
+						<li> <span class="page" /> </li> <li>of</li> <li> <span class="topage" /> 
+						</li> </ul> </div>
+				</div>
+			</xpath> -->
+		</template>
+		<record id="hr_payroll.action_report_payslip" model="ir.actions.report">
+			<field name="paperformat_id" ref="indian_payroll.report_payslip_paperformat" />
+		</record>
+	</data>
+</odoo>

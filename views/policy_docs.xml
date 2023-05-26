@@ -1,0 +1,43 @@
+<odoo>
+	<data>
+		<!-- Policy Documents -->
+
+		<record model="ir.ui.view" id="form_view_policy_docs">
+			<field name="name">hr.public.documents.form</field>
+			<field name="model">hr.public.documents</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<field name="name" />
+					</group>
+					<notebook>
+						<page name="public" string="Documents">
+							<field name="document_attach_ids" colspan="4" />
+						</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="tree_view_policy_docs">
+            <field name="name">hr.public.documents.tree</field>
+            <field name="model">hr.public.documents</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="document_attach_ids" />
+                </tree>
+            </field>
+        </record>
+
+		<record id="action_view_policy_docs" model="ir.actions.act_window">
+			<field name='name'>Public Documents</field>
+			<field name='res_model'>hr.public.documents</field>
+			<field name='view_type'>form</field>
+			<field name='view_mode'>tree,form</field>
+		</record>
+
+		<menuitem id="policy_docs_menu" name="Policy Documents"
+			sequence="45" groups="base.group_user" parent="indian_payroll.menu_hr_main_head"
+			action="action_view_policy_docs" />
+	</data>
+</odoo>

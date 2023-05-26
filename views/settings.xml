@@ -1,0 +1,61 @@
+<odoo>
+	<data>
+	<!--Settings Form View-->
+		<record id="form_view_settings" model="ir.ui.view">
+			<field name="name">settings.settings.form</field>
+			<field name="model">setting.setting</field>
+			<field name="arch" type="xml">
+				<form string="Settings" class="oe_form_configuration">
+				 <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                    </header>
+					<group string="Settings">
+						<label for="id" string="Points Achieved Amount" />
+						<div>
+							<field name="point_achieved_amount" class="oe_inline"/>
+						</div>
+					</group>
+					<group string="Timesheet Settings">
+						<label for="id" string="Time Limit Per Day (24 Hours Format)" />
+						<div>
+							<field name="timesheet_time_per_day" widget="float_time" class="oe_inline "/>
+						</div>
+						<!--<label for="id" string="Time Limit Per Week (24 Hours Format)" />-->
+						<!--<div>-->
+							<!--<field name="timesheet_time_per_week" widget="float_time" class="oe_inline"/>-->
+						<!--</div>-->
+					</group>
+					<!-- <group string="Leaves">
+						<label for="id" string="Bussiness Date" />
+						<div>
+							<field name="company_bussiness_date" class="oe_inline"/>
+						</div>
+					</group> -->
+				</form>
+			</field>
+		</record>
+		
+		<!--Settings Tree View-->
+		<record id="settings_tree_view" model="ir.ui.view">
+			<field name="name">settings.tree</field>
+			<field name="model">setting.setting</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name = "point_achieved_amount"></field>
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_settings" model="ir.actions.act_window">
+			<field name="name">Timesheet Settings</field>
+			<field name="res_model">setting.setting</field>
+			<field name="view_mode">form,tree</field>
+			<field name="target">inline</field>
+		</record>
+
+		<menuitem id="menu_settings" name="Timesheet Settings"
+			parent="hr.menu_human_resources_configuration" sequence="0"
+			action="action_settings"/>
+	</data>
+</odoo>

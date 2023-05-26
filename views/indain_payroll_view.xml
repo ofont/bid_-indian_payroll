@@ -1,0 +1,20 @@
+<odoo>
+<data>
+
+		<record id="l10n_in_hr_payroll_form_in_inherit11" model="ir.ui.view">
+            <field name="name">hr.contract.form.in.inherits</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="l10n_in_hr_payroll.hr_contract_form_in_inherit"/>
+            <field name="arch" type="xml">
+            <data>
+                 <xpath expr="." position="replace">
+                 </xpath>
+            </data>
+            </field>
+        </record>
+
+</data>
+
+
+
+</odoo>

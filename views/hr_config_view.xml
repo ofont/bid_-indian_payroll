@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- Financial Year on employee declaration -->
+		<record id="fin_year_declaration_form" model="ir.ui.view">
+			<field name="name">Financial Year Form</field>
+			<field name="model">declaration.financial.year</field>
+			<field name="arch" type="xml">
+				<form class="oe_form_configuration">
+					<sheet>
+						<group col="4" colspan="4">
+							<field name="financial_year_id" attrs="{'readonly': [('lock', '=', True)]}" widget="many2one_tags" options="{'no_create': True}"/>
+							<field name="locking_date"/>
+							
+							<field name="lock" invisible="1"/>
+						</group>
+						<field name="it_declaration_ids" widget="many2one_tags" options="{'no_create': True}"/>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="fin_year_declaration_tree" model="ir.ui.view">
+			<field name="name">Financial Year Tree</field>
+			<field name="model">declaration.financial.year</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="financial_year_id" widget="many2one_tags" options="{'no_create': True}"/>
+					<field name="locking_date"/>
+
+				</tree>
+			</field>
+		</record>
+		<!-- Financial Year Master -->
+		<record id="fin_year_form" model="ir.ui.view">
+			<field name="name">Financial Year Form</field>
+			<field name="model">financial.year.master</field>
+			<field name="arch" type="xml">
+				<form class="oe_form_configuration">
+					<sheet>
+						<group col="2">
+							<field name="name"/>
+							</group>
+							<group col="4">
+							<field name="date_start"/>
+							<field name="date_end"/>
+							</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="fin_year_tree" model="ir.ui.view">
+			<field name="name">Financial Year Tree</field>
+			<field name="model">financial.year.master</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="date_start"/>
+					<field name="date_end"/>
+
+				</tree>
+			</field>
+		</record>
+		<record id="action_financial_year" model="ir.actions.act_window">
+			<field name="res_model">financial.year.master</field>
+			<field name="view_type">form</field>
+			<field name="name">Financial Year</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem action="action_financial_year" id="menu_financial_year" name="Financial Year" parent="hr.menu_human_resources_configuration"/>
+
+
+		<record id="view_it_section_form1" model="ir.ui.view">
+			<field name="name">Configure IT Section1</field>
+			<field name="model">it.section</field>
+			<field name="arch" type="xml">
+				<form string="Configure Declaration">
+					<sheet>
+						<group col="4">
+							<field name="name"/>
+							<field name="max_limit"/>
+						</group>
+						<fields name="declaration_ids" widget="many2one_tags" options="{'no_create': True}"/>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="it_section_tree" model="ir.ui.view">
+			<field name="name">IT Section</field>
+			<field name="model">it.section</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="max_limit"/>
+
+				</tree>
+			</field>
+		</record>
+		<record id="action_hr_it_section" model="ir.actions.act_window">
+			<field name="res_model">it.section</field>
+			<field name="view_type">form</field>
+			<field name="name">IT Section</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem action="action_hr_it_section" id="menu_it_section" name="IT Section" parent="hr.menu_human_resources_configuration"/>
+		<record id="view_declaration_declaration_configuration" model="ir.ui.view">
+			<field name="name">Configure Declaration</field>
+			<field name="model">declaration.declaration</field>
+			<field name="arch" type="xml">
+				<form string="Configure Declaration" class="oe_form_configuration">
+					<sheet>
+						<group col="4">
+							<field name="name"/>
+							<field name="section_id" widget="many2one_tags" options="{'no_create': True}"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="declaration_declaration_tree" model="ir.ui.view">
+			<field name="name">declaration_declaration_tree</field>
+			<field name="model">declaration.declaration</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="section_id" widget="many2one_tags" options="{'no_create': True}"/>
+				</tree>
+			</field>
+		</record>
+		<record id="action_declaration_declaration" model="ir.actions.act_window">
+			<field name="res_model">declaration.declaration</field>
+			<field name="view_type">form</field>
+			<field name="name">Declaration</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem action="action_declaration_declaration" id="hr_menu_it_declaration_type" name="Declarations" parent="hr.menu_human_resources_configuration"/>
+
+
+		<record id="it_declaration_tree" model="ir.ui.view">
+			<field name="name">IT Declaration</field>
+			<field name="model">it.declaration</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="section_id" widget="many2one_tags" options="{'no_create': True}"/>
+					<field name="max_limit"/>
+					<field name="declaration_total"/>
+
+				</tree>
+			</field>
+		</record>
+		<record id="view_it_section" model="ir.ui.view">
+			<field name="name">IT Declaration</field>
+			<field name="model">it.declaration</field>
+			<field name="arch" type="xml">
+				<form string="IT Declaration">
+					<sheet>
+						<group col="4" colspan="4">
+							<field name="section_id" widget="many2one_tags" options="{'no_create': True}"/>
+							<field name="max_limit" readonly="True"/>
+							<field name="declaration_total" readonly="True"/>
+
+						</group>
+						<field name="declaration_line_ids" context="{'section_id':section_id}" widget="many2one_tags" options="{'no_create': True}"></field>
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="it_declaration_line_tree" model="ir.ui.view">
+			<field name="name">IT Declaration</field>
+			<field name="model">it.declaration.line</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="it_declaration_id" widget="many2one_tags" options="{'no_create': True}"/>
+					<field name="amount"/>
+					<field name="status"/>
+				</tree>
+			</field>
+		</record>
+		<record id="view_declaration_line_form" model="ir.ui.view">
+			<field name="name">IT Declaration</field>
+			<field name="model">it.declaration.line</field>
+			<field name="arch" type="xml">
+				<form string="IT Declaration" widget="many2one_tags" options="{'no_create': True}">
+					<sheet>
+						<group col="4">
+							<field name="it_declaration_id" widget="many2one_tags" options="{'no_create': True}"/>
+							<field name="amount"/>
+							<field name="status"/>
+						</group>
+						<field name="attachment_line_ids" widget="many2one_tags" options="{'no_create': True}">
+						</field>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="declaration_configuration_form" model="ir.ui.view">
+			<field name="name">Declaration Configuration Form</field>
+			<field name="model">declaration.configuration</field>
+			<field name="arch" type="xml">
+				<form class="oe_form_configuration">
+					<sheet>
+						<group col="4">
+							<field name="locking_date"/>
+							<field name="financial_year_id"/>
+						</group>
+						<field name="mesge_ids">
+							<tree create="false">
+								<field name="date"/>
+								<field name="author_id"/>
+								<field name="locking_date"/>
+								<field name="financial_year_id"/>
+								<field name="model" invisible="1"/>
+							</tree>
+						</field>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="declaration_configuration_tree" model="ir.ui.view">
+			<field name="name">Declaration Configuration Tree</field>
+			<field name="model">declaration.configuration</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="locking_date"/>
+					<field name="financial_year_id"/>
+				</tree>
+			</field>
+		</record>
+		<record id="action_declaration_configuration" model="ir.actions.act_window">
+			<field name="res_model">declaration.configuration</field>
+			<field name="view_type">form</field>
+			<field name="name">Declaration Configuration</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem action="action_declaration_configuration" id="menu_declaration_configuration" name="Declaration Configuration" parent="hr.menu_human_resources_configuration"/>
+
+		<data noupdate="1">
+			<record id="ir_cron_locking_declaration" model="ir.cron">
+				<field name="name">Declaration Locking</field>
+				<field name="model_id" ref="base.model_base"/>
+				<field name="state">code</field>
+				<field name="code">model.lock_employee_declaration()</field>
+				<field name="interval_number">1</field>
+				<field name="interval_type">months</field>
+				<field name="numbercall">-1</field>
+				<field name="doall" eval="False"/>
+				
+		<!-- <record id="ir_cron_locking_declaration" model="ir.cron">
+        <field name="name">Account Asset: Generate asset entries</field>
+        <field name="model_id" ref="model_base"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_generate_entries()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">months</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/> -->
+    </record>
+
+		</data>
+
+
+
+
+
+	</data>
+</odoo>

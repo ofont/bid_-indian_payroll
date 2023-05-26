@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+	<data>
+		<record id="email_template_candidate_reference" model="mail.template">
+			<field name="name">Send Mail to Candidate for Job Referrence</field>
+			<field name="subject">Referred as ${object.job_id.name}</field>
+			<field name="email_from"><![CDATA[${object.emp_id.user_id.company_id.name} <${(object.emp_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.email or ''}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_job_candidate" />
+			<field name="body_html">
+               <![CDATA[
+              Hi,
+              	You have have been referred by ${object.emp_id.name} for ${object.job_id.name} position.
+              	<br/><br/>
+              Your Details:<br/><br/>
+              	Name: ${object.name}<br/>
+              	Applying For Position: ${object.job_id.name}<br/>
+              	Contact Number : ${object.mobile}<br/>
+              	Email: ${object.email}<br/>
+
+               <br></br><br></br>
+               % if object.Resume:
+               		Attached is your Resume. Kindly, check.
+               % endif
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=job.candidate">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+		
+		<record id="email_template_emp_reference" model="mail.template">
+			<field name="name">Send Mail to Employee for Job Referrence</field>
+			<field name="subject">Referred ${object.name} for ${object.job_id.name} position</field>
+			<field name="email_from"><![CDATA[${object.emp_id.user_id.company_id.name} <${(object.emp_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.emp_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_job_candidate" />
+			<field name="body_html">
+               <![CDATA[
+              Hi,
+              	You have referred a candidate for ${object.job_id.name} position.
+              	<br/><br/>
+              Candidate Details:<br/><br/>
+              	Name: ${object.name}<br/>
+              	Applying For Position: ${object.job_id.name}<br/>
+              	Contact Number : ${object.mobile}<br/>
+              	Email: ${object.email}<br/>
+
+               <br></br><br></br>
+               % if object.Resume:
+               		Attached is the Resume. Kindly, check.
+               % endif
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=job.candidate">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+		
+		<record id="email_template_hr_reference" model="mail.template">
+			<field name="name">Send Mail to HR for Job Referrence</field>
+			<field name="subject">Referred as ${object.job_id.name}</field>
+			<field name="email_from"><![CDATA[${object.emp_id.user_id.company_id.name} <${(object.emp_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.emp_id.get_hr_email_id() or ''}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_job_candidate" />
+			<field name="body_html">
+               <![CDATA[
+              Hi,
+              	You have got a candidate for ${object.job_id.name} position.
+              	<br/><br/>
+              Candidate Details:<br/><br/>
+              	Name: ${object.name}<br/>
+              	Applying For Position: ${object.job_id.name}<br/>
+              	Contact Number : ${object.mobile}<br/>
+              	Email: ${object.email}<br/>
+
+               <br></br><br></br>
+               % if object.Resume:
+               		Attached is the Resume. Kindly, check.
+               % endif
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=job.candidate">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+	</data>
+</odoo>

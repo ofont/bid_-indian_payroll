@@ -1,0 +1,49 @@
+<odoo>
+	<data>
+		<!--Attendances -->
+		<record model="ir.ui.view" id="hr_attendance_config_setting_form">
+			<field name="name">hr.attendance.config.setting.form</field>
+			<field name="model">hr.attendance.config.setting</field>
+			<field name="arch" type="xml">
+				<form create="0" edit="0">
+					<group colspan="4" col="4">
+						<field name="folder_path" />
+						<field name="tz" />
+					</group>
+				</form>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="hr_attendance_config_setting_tree">
+			<field name="name">hr.attendance.config.setting.tree</field>
+			<field name="model">hr.attendance.config.setting</field>
+			<field name="arch" type="xml">
+				<tree>
+
+					<field name="folder_path" />
+					<field name="tz" />
+
+				</tree>
+			</field>
+		</record>
+		<record id="hr_attendance_configuration_form_321" model="ir.actions.act_window">
+			<field name="name">Folder Paths</field>
+			<field name="res_model">hr.attendance.config.setting</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="hr_attendance.menu_hr_attendance_root" parent="menu_hr_main_head"
+			name="Attendances" sequence="56" groups="hr_attendance.group_hr_attendance"
+			web_icon="hr_attendance,static/description/icon.png" />
+
+		<record id="hr_attendance_configuration_form_321" model="ir.actions.act_window">
+			<field name="name">Folder Paths</field>
+			<field name="res_model">hr.attendance.config.setting</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<!-- <menuitem id="menu_hr_attendance_configuration_0987" parent="hr_attendance.menu_hr_attendance_config"
+			action="hr_attendance_configuration_form_321" string="Folder Paths"
+			sequence="102" /> -->
+	</data>
+</odoo>

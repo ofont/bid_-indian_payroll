@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="monthly_gross_report_view" model="report.paperformat">
+			<field name="name">Payslip Batch</field>
+			<field name="default" eval="True" />
+			<field name="format">A4</field>
+			<field name="orientation">Portrait</field>
+			<field name="header_line" eval="False" />
+			<field name="header_spacing">35</field>
+			<field name="dpi">90</field>
+		</record>
+		<report id="monthly_gross_income" string="Monthly Gross Amount"
+			model="hr.contract" report_type="qweb-pdf"
+			file="indian_payroll.monthly_gross_report" name="indian_payroll.monthly_gross_report" />
+		<!-- <div class="header"> <link rel="stylesheet" type="text/css" href="/indian_payroll/static/src/css/report_payslipsss.css" 
+			/> </div> -->
+
+
+
+		<template id="monthly_gross_report_document">
+			<xpath expr="//div[@class='header']" position="replace">
+				
+
+				<div class="header">
+					<div class="row">
+						<!-- <div class="col-xs-3">
+							 <img class="img img-responsive" src="/indian_payroll/static/src/img/logo.jpg"  style="max-height: 90px;"/>
+						</div> -->
+						<div style="float:right;">
+                             <h3>Gross Salary Break Up</h3>
+                        </div>
+					</div>
+					<div class="row zero_min_height">
+						<div class="col-xs-12">
+							<div style="border-bottom: 1px solid black;"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3" name="company_address">
+						</div>
+					</div>
+				</div>
+				<!-- <div class="header"> <link rel="stylesheet" type="text/css" href="/indian_payroll/static/src/css/report_payslipsss.css" 
+					/> </div> -->
+			</xpath>
+
+
+			<t t-call="web.external_layout">
+				<t t-foreach="docs" t-as="doc" />
+				<div class="page">
+					
+	
+
+
+
+
+
+
+
+
+
+					<div style="width:50%; float:left; ">
+						<table class="table"
+							style="float:left; width:100%; margin-bottom:0px!important;"
+							border="1">
+							<thead style="font-size:90%;">
+								<tr style="background-color:dodgerBlue;">
+									<th width="70%" style="color:white;">Earnings</th>
+									<th width="30%" style="color:white; text-align:center;">Current(INR)</th>
+								</tr>
+							</thead>
+							<tbody style="font-size:80%;">
+								<tr t-foreach="doc.line_ids" t-as="line">
+									<t
+										t-if="line.code != 'NET' and line.code != 'GROSS' and line.code != 'ANNUAL' and line.total &gt; 0">
+										<td style="border: 1px solid #161616;padding:3px;text-align: left;">
+											<span t-field="line.name" />
+										</td>
+										<td style="border: 1px solid #161616;padding:3px;text-align: right">
+											<span t-field="line.total" />
+										</td>
+									</t>
+								</tr>
+							</tbody>
+
+							<!-- <tfoot> <tr> <td>Total Earnings</td> <td><t t-foreach="o.line_ids" 
+								t-as="line"> <t t-if="line.code == 'GROSS'"> <span t-field="line.total" /> 
+								</t> </t></td> </tr> </tfoot> -->
+
+						</table>
+					</div>
+
+
+
+					<div style="width:50%; float:left; margin-bottom:-40px;">
+						<table class="table" style="float:right;width:100%; margin-bottom:-40px;"
+							border="1">
+							<thead style="font-size:90%;">
+								<tr style="background-color:dodgerBlue;">
+									<th width="70%" style="color:white; text-align:left;">Deductions</th>
+									<th width="30%" style="color:white; text-align:center;">
+										Amount
+										<small>(INR)</small>
+									</th>
+								</tr>
+							</thead>
+							<tbody style="font-size:80%;">
+								<t t-set="deduct" t-value="0.0" />
+								<tr t-foreach="doc.line_ids" t-as="line">
+									<t t-if="line.total &lt; 0">
+										<td style="border: 1px solid #161616;padding:3px;text-align: left">
+											<span t-field="line.name" />
+										</td>
+										<td style="border: 1px solid #161616;padding:3px;text-align: right">
+											<span t-field="line.total" />
+											<t t-set="deduct" t-value="deduct+line.total" />
+										</td>
+									</t>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<table class="table" border="1">
+						<tr
+							style="border: 1px solid #161616;padding:3px; font-size:90%; border-top:2px solid black!important;">
+							<th width="35%" style="text-align: left">Total Earnings</th>
+							<th width="15%" style="text-align: right">
+								<t t-foreach="doc.line_ids" t-as="line">
+									<t t-if="line.code == 'GROSS'">
+										<span t-field="line.total" />
+									</t>
+								</t>
+							</th>
+							<th width="35%" style="text-align: left">Total Deductions</th>
+							<th width="15%" style="text-align: right">
+								<t t-esc="round(deduct, 2)" />
+							</th>
+						</tr>
+					</table>
+
+
+
+
+
+
+				</div>
+			</t>
+			
+			  <xpath expr="//div[@class='footer']" position="replace">
+                
+
+                <div class="footer">
+                    <div class="row">
+                        <div class="col-xs-3">
+                         Reportttttttttttt  
+                        <t t-esc="doc.get_current_date()" />
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- <div class="header"> <link rel="stylesheet" type="text/css" href="/indian_payroll/static/src/css/report_payslipsss.css" 
+                    /> </div> -->
+            </xpath>
+			
+		</template>
+		<template id="monthly_gross_report">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="indian_payroll.monthly_gross_report_document" />
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>

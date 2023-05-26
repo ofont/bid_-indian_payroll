@@ -1,0 +1,363 @@
+<odoo>
+	<data>
+		<!-- <record id="leave request_emp_add" model="mail.template"> <field name="name">Send 
+			Mail Request for leave</field> <field name="subject">Leave applied</field> 
+			<field name="email_to">${object.hr_manager_email_id}</field> <field name="model_id" 
+			ref="unocoin.model_hr_holidays" /> <field name="body_html"> <![CDATA[ Kindly 
+			approve leave for ${object.employee_id.name} on dated ${object.date_from} 
+			to ${object.date_to} <a href="https://www.unocoin.net/web#id=${object.id}&view_type=form&model=hr.holidays">Click 
+			here</a> to respond. ]]> </field> </record> <record id="leave request_hr_add" 
+			model="mail.template"> <field name="name">Send Mail Request for leave</field> 
+			<field name="subject">Leave applied</field> <field name="email_to">${object.hr_manager_email_id}</field> 
+			<field name="model_id" ref="unocoin.model_hr_holidays" /> <field name="body_html"> 
+			<![CDATA[ Kindly approve leave for ${object.employee_id.name} on dated ${object.date_from} 
+			to ${object.date_to} <a href="https://www.unocoin.net/web#id=${object.id}&view_type=form&model=hr.holidays">Click 
+			here</a> to respond. ]]> </field> </record> <record id="leave request_manager_add" 
+			model="mail.template"> <field name="name">Send Mail Request for leave</field> 
+			<field name="subject">Leave applied</field> <field name="email_to">${object.hr_manager_email_id}</field> 
+			<field name="model_id" ref="unocoin.model_hr_holidays" /> <field name="body_html"> 
+			<![CDATA[ Kindly approve leave for ${object.employee_id.name} on dated ${object.date_from} 
+			to ${object.date_to} <a href="https://www.unocoin.net/web#id=${object.id}&view_type=form&model=hr.holidays">Click 
+			here</a> to respond. ]]> </field> </record> -->
+
+		<!-- <record id="leave_request_to_hr_remove" model="mail.template"> <field 
+			name="name">Send Mail Request for leave to HR</field> <field name="subject">Leave 
+			Request from ${object.employee_id.name}</field> <field name="email_to">${object.employee_id.get_hr_email_id()}</field> 
+			<field name="model_id" ref="unocoin.model_hr_holidays" /> <field name="body_html"> 
+			<![CDATA[ Kindly approve leave for ${object.employee_id.name} on dated ${object.date_from} 
+			to ${object.date_to} <br/><br/> <a href="https://www.unocoin.net/web#id=${object.id}&view_type=form&model=hr.holidays">Click 
+			here</a> to respond. ]]> </field> </record> -->
+
+		<record id="leave_request_to_hr_remove" model="mail.template">
+			<field name="name">Leave Request From Employee</field>
+			<field name="subject">Leave Request From ${object.employee_id.name}
+			</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.hr_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.hr_id.name},
+              <br/><br/>
+              Kindly approve the leave for ${object.employee_id.name}, dated ${object.date_from.split(' ')[0]} to ${object.date_to.split(' ')[0]}.
+              <br/><br/>
+              <a href = "https://www.indian_payroll.net/web#id=${object.id}&view_type=form&model=hr.leave">Click here</a> to view.
+              <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="leave_request_to_sub_hr_remove" model="mail.template">
+			<field name="name">Leave Request From Employee To Sub HR</field>
+			<field name="subject">Leave Request From ${object.employee_id.name}
+			</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.parent_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.parent_id.name},
+              <br/><br/>
+              Kindly approve the leave for ${object.employee_id.name}, dated ${object.date_from.split(' ')[0]} to ${object.date_to.split(' ')[0]}.
+              <br/><br/>
+              <a href = "https://www.indian_payroll.net/web#id=${object.id}&view_type=form&model=hr.leave">Click here</a> to view.
+              <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="leave_request_to_emp_remove" model="mail.template">
+			<field name="name">Leave Request to HR</field>
+			<field name="subject">Leave Request Sent</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.name},
+              <br/><br/>
+              Leave Application dated ${object.date_from.split(' ')[0]} to ${object.date_to.split(' ')[0]} has been successfully submitted.
+              <br/><br/>
+              <a href = "https://www.indian_payroll.net/web#id=${object.id}&view_type=form&model=hr.leave">Click here</a> to view.
+              <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="leave_approved_to_hr_remove" model="mail.template">
+			<field name="name">Leave Approved For Employee</field>
+			<field name="subject">Leave Approved For ${object.employee_id.name}
+			</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.hr_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.hr_id.name},
+              <br/><br/>
+              You have approved leave for ${object.employee_id.name}, dated ${object.date_from.split(' ')[0]} to ${object.date_to.split(' ')[0]}.
+              <br/><br/>
+              <a href = "https://www.indian_payroll.net/web#id=${object.id}&view_type=form&model=hr.leave">Click here</a> to view.
+              <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="leave_approved_to_sub_hr_remove" model="mail.template">
+			<field name="name">Leave Approved By Sub HR For Employee</field>
+			<field name="subject">Approved Leave For ${object.employee_id.name}
+			</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.parent_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.parent_id.name},
+              <br/><br/>
+              You have approved leave for ${object.employee_id.name}, dated ${object.date_from.split(' ')[0]} to ${object.date_to.split(' ')[0]}.
+              <br/><br/>
+              <a href = "https://www.indian_payroll.net/web#id=${object.id}&view_type=form&model=hr.leave">Click here</a> to view.
+              <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="leave_approved_to_emp_remove" model="mail.template">
+			<field name="name">Leave Approved By HR</field>
+			<field name="subject">Leave Approved</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.name},
+              <br/><br/>
+              Your Leave for ${object.date_from} to ${object.date_to} has been approved.
+              <br/><br/>
+              <a href = "https://www.indian_payroll.net/web#id=${object.id}&view_type=form&model=hr.leave">Click here</a> to view.
+              <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+
+		<!-- Leave Allocation Email Templates -->
+
+		<record id="leave_allocation_request_to_hr_add" model="mail.template">
+			<field name="name">Leave Allocation Request From Emps To HR</field>
+			<field name="subject">Leave Allocation Request From
+				${object.employee_id.name}
+			</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.hr_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.hr_id.name},
+              <br/><br/>
+              Kindly approve leave allocation for ${object.employee_id.name}, for ${object.number_of_days_display} day/days.
+               % if object.notes:
+               <br/><br/>
+               		For the following reason:
+               		<br/>
+               			${object.notes}
+               % endif
+              <br/><br/>
+              
+              <a href = "https://www.indian_payroll.net/web#id=${object.id}&view_type=form&model=hr.leave">Click here</a> to view.
+              <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<!-- Leave Allocation Email Templates -->
+
+		<record id="leave_allocation_rejected_to_emp_add" model="mail.template">
+			<field name="name">Leave Allocation Request From To Emp Rejected
+			</field>
+			<field name="subject">Leave Allocation Request Rejected
+			</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.name},
+              <br/><br/>
+              You leave allocation request , for ${object.number_of_days_display} day/days has been rejected.
+               % if object.notes:
+               <br/><br/>
+               		For the following reason:
+               		<br/>
+               			${object.notes}
+               % endif
+              <br/><br/>
+              
+              <a href = "https://www.indian_payroll.net/web#id=${object.id}&view_type=form&model=hr.leave">Click here</a> to view.
+              <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="leave_allocation_request_to_manager_add" model="mail.template">
+			<field name="name">Leave Allocation Request From Emps</field>
+			<field name="subject">Leave Allocation Request From
+				${object.employee_id.name}
+			</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.parent_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.parent_id.name},
+              <br/><br/>
+              Kindly approve leave allocation for ${object.employee_id.name}, for ${object.number_of_days_display} day/days.
+               % if object.notes:
+               <br/><br/>
+               		For the following reason:
+               		<br/>
+               			${object.notes}
+               % endif
+              <br/><br/>
+              
+              <a href = "https://www.indian_payroll.net/web#id=${object.id}&view_type=form&model=hr.leave">Click here</a> to view.
+              <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="leave_allocation_request_to_emp_add" model="mail.template">
+			<field name="name">Leave Allocation Request Sent For Me</field>
+			<field name="subject">Leave Allocation Request Sent
+			</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.name},
+              <br/><br/>
+              Your leave allocation request for ${object.number_of_days_display} day/days has been sent.
+               % if object.notes:
+               		<br/><br/>
+               		For the following reason:
+               		<br/>
+               			${object.notes}
+               % endif
+              <br/><br/>
+              
+              <a href = "https://www.indian_payroll.net/web#id=${object.id}&view_type=form&model=hr.leave">Click here</a> to view.
+              <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="leave_allocation_approved_to_sub_hr_add" model="mail.template">
+			<field name="name">Leave Allocation Approved For Emps to Sub HR
+			</field>
+			<field name="subject">Leave Allocation Approved For
+				${object.employee_id.name}
+			</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.parent_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.parent_id.name},
+              <br/><br/>
+              Your have approved the leave allocation request from ${object.employee_id.name} for ${object.number_of_days_display} day/days.
+              
+              <a href = "https://www.indian_payroll.net/web#id=${object.id}&view_type=form&model=hr.leave">Click here</a> to view.
+              <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="leave_allocation_approved_to_emp_add" model="mail.template">
+			<field name="name">Leave Allocation Approved For Emps</field>
+			<field name="subject">Leave Allocation Approved
+			</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.name},
+              <br/><br/>
+              Your leave allocation request has been approved for ${object.number_of_days_display} day/days.
+              
+              <a href = "https://www.indian_payroll.net/web#id=${object.id}&view_type=form&model=hr.leave">Click here</a> to view.
+              <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+		
+		<record id="inform_leave_elapse" model="mail.template">
+			<field name="name">Leave About To Elapse</field>
+			<field name="subject">Leave About To Elapse
+			</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_leave" />
+			<field name="body_html">
+               <![CDATA[
+              Dear ${object.employee_id.name},
+              <br/><br/>
+              Your ${object.holiday_status_id.name} is about to elapse after ${object.holiday_status_id.notify_before_number_of_days} days.
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+	</data>
+</odoo>

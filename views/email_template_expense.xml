@@ -1,0 +1,271 @@
+<odoo>
+	<data>
+		<record id="email_template_hr_expense" model="mail.template">
+			<field name="name">Expense Mail</field>
+			<field name="subject">Expense Mail</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.get_hr_email_id()}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_expense" />
+			<field name="body_html">
+               <![CDATA[
+              Hi,
+              
+              Kindly respond to the following expense:
+              <br></br><br></br>
+              Employee : ${object.employee_id.name}
+               <br></br><br></br>
+              	Expense Description: ${object.name}
+               <br></br><br></br>
+               Expense Category: ${object.category_id.name}
+               <br></br><br></br>
+               
+               
+               Total Cost: ${object.unit_amount}
+               <br></br><br></br>
+               Quantity: ${object.quantity}
+               <br></br><br></br>
+                Date: ${object.date}
+               <br></br><br></br>
+                Receipt/Invoice Number: ${object.receipt_invoice_number}
+               <br></br><br></br>
+                Include in Payslip: ${object.include_in_payslip}
+               <br></br><br></br>
+               Payment By: ${object.payment_mode}
+               <br></br><br></br>
+               Note: ${object.note}
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=hr.expense">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="email_template_emp_expense" model="mail.template">
+			<field name="name">Expense Mail</field>
+			<field name="subject">Expense Mail</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_expense" />
+			<field name="body_html">
+               <![CDATA[
+              Hi,
+              Your expense has been submitted successfully, having following details:
+              <br></br><br></br>
+              Employee : ${object.employee_id.name}
+               <br></br><br></br>
+              
+               Expense Description: ${object.name}
+               <br></br><br></br>
+               Expense Category: ${object.category_id.name}
+               <br></br><br></br>
+               Total Cost: ${object.unit_amount}
+               <br></br><br></br>
+               Quantity: ${object.quantity}
+               <br></br><br></br>
+                Date: ${object.date}
+               <br></br><br></br>
+                Expense Journal: ${object.journal_id.id}
+               <br></br><br></br>
+                Receipt/Invoice Number: ${object.receipt_invoice_number}
+               <br></br><br></br>
+                Include in Payslip: ${object.include_in_payslip}
+               <br></br><br></br>
+               Payment By: ${object.payment_mode}
+               <br></br><br></br>
+               Note: ${object.note}
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=hr.expense">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="email_template_emp_expense_approved" model="mail.template">
+			<field name="name">Expense Mail</field>
+			<field name="subject">Expense Approved</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_expense" />
+			<field name="body_html">
+               <![CDATA[
+              Hi,
+              Your expense has been approved, having following details:
+              <br></br><br></br>
+              Employee : ${object.employee_id.name}
+               <br></br><br></br>
+               Expense Description: ${object.name}
+               <br></br><br></br>
+               Expense Category: ${object.category_id.name}
+               <br></br><br></br>
+               Total Cost: ${object.unit_amount}
+               <br></br><br></br>
+               Quantity: ${object.quantity}
+               <br></br><br></br>
+                Date: ${object.date}
+               <br></br><br></br>
+                Expense Journal: ${object.journal_id.id}
+               <br></br><br></br>
+                Receipt/Invoice Number: ${object.receipt_invoice_number}
+               <br></br><br></br>
+                Include in Payslip: ${object.include_in_payslip}
+               <br></br><br></br>
+               Payment By: ${object.payment_mode}
+               <br></br><br></br>
+               Note: ${object.note}
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=hr.expense">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="email_template_hr_expense_approved" model="mail.template">
+			<field name="name">Expense Mail</field>
+			<field name="subject">Expense Approved</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.get_hr_email_id()}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_expense" />
+			<field name="body_html">
+               <![CDATA[
+              Hi,
+              
+              You have Approved the expense for ${object.employee_id.name}, having following details:
+              <br></br><br></br>
+               Employee : ${object.employee_id.name}
+               <br></br><br></br>
+               Expense Description: ${object.name}
+               <br></br><br></br>
+               Expense Category: ${object.category_id.name}
+               <br></br><br></br>
+               Total Cost: ${object.unit_amount}
+               <br></br><br></br>
+               Quantity: ${object.quantity}
+               <br></br><br></br>
+                Date: ${object.date}
+               <br></br><br></br>
+                Expense Journal: ${object.journal_id.id}
+               <br></br><br></br>
+                Receipt/Invoice Number: ${object.receipt_invoice_number}
+               <br></br><br></br>
+                Include in Payslip: ${object.include_in_payslip}
+               <br></br><br></br>
+               Payment By: ${object.payment_mode}
+               <br></br><br></br>
+               Note: ${object.note}
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=hr.expense">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="email_template_emp_expense_rejected" model="mail.template">
+			<field name="name">Expense Mail</field>
+			<field name="subject">Expense Rejected</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_expense" />
+			<field name="body_html">
+               <![CDATA[
+              Hi,
+              Your expense has been rejected, having following details:
+              <br></br><br></br>
+              Employee : ${object.employee_id.name}
+               <br></br><br></br>
+               Expense Description: ${object.name}
+               <br></br><br></br>
+               Expense Category: ${object.category_id.name}
+               <br></br><br></br>
+               Total Cost: ${object.unit_amount}
+               <br></br><br></br>
+               Quantity: ${object.quantity}
+               <br></br><br></br>
+                Date: ${object.date}
+               <br></br><br></br>
+                Expense Journal: ${object.journal_id.id}
+               <br></br><br></br>
+                Receipt/Invoice Number: ${object.receipt_invoice_number}
+               <br></br><br></br>
+                Include in Payslip: ${object.include_in_payslip}
+               <br></br><br></br>
+               Payment By: ${object.payment_mode}
+               <br></br><br></br>
+               Note: ${object.note}
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=hr.expense">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="email_template_hr_expense_rejected" model="mail.template">
+			<field name="name">Expense Mail</field>
+			<field name="subject">Expense Rejected</field>
+			<field name="email_from"><![CDATA[${object.employee_id.user_id.company_id.name} <${(object.employee_id.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.get_hr_email_id()}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_expense" />
+			<field name="body_html">
+               <![CDATA[
+              Hi,
+              
+              You have Rejected the expense for ${object.employee_id.name}, having following details:
+              <br></br><br></br>
+               Employee : ${object.employee_id.name}
+               <br></br><br></br>
+               Expense Description: ${object.name}
+               <br></br><br></br>
+               Expense Category: ${object.category_id.name}
+               <br></br><br></br>
+               Total Cost: ${object.unit_amount}
+               <br></br><br></br>
+               Quantity: ${object.quantity}
+               <br></br><br></br>
+                Date: ${object.date}
+               <br></br><br></br>
+                Expense Journal: ${object.journal_id.id}
+               <br></br><br></br>
+                Receipt/Invoice Number: ${object.receipt_invoice_number}
+               <br></br><br></br>
+                Include in Payslip: ${object.include_in_payslip}
+               <br></br><br></br>
+               Payment By: ${object.payment_mode}
+               <br></br><br></br>
+               Note: ${object.note}
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=hr.expense">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+	</data>
+</odoo>

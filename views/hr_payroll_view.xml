@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- Add button to deduct days -->
+		<record id="view_hr_payslip_form" model="ir.ui.view">
+			<field name="name">hr.payslip.form.view</field>
+			<field name="model">hr.payslip</field>
+			<field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+			<field name="arch" type="xml">
+				<button name="action_payslip_cancel" position="after">
+					<button name="apply_day_leave" type="object" string="Apply Leave"/>
+				</button>
+				<field name="company_id" position="after">
+					<field name="total_income"/>
+					<field name="taxable_income"/>
+					<field name="yearly_tds"/>
+					<field name="recovered_tds"/>
+					<field name="total_declarations"/>
+				</field>
+				<field name="quantity" position="attributes">
+				    <attribute name="invisible">1</attribute>
+				</field>
+				<field name="rate" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+				<!-- Accounting Information -->
+			</field>
+		</record>
+
+		<record id="hr_payslip_run_form_inherited" model="ir.ui.view">
+			<field name="name">hr.payslip.form.view.inherited</field>
+			<field name="model">hr.payslip.run</field>
+			<field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+			<field name="arch" type="xml">
+				<button name="draft_payslip_run" position="after">
+					<!-- <button name="print_payslip_batch_report" type="object"  string="Print Payslip Batch"/> -->
+				</button>
+			</field>
+		</record>
+
+		<record id="it_slab_form" model="ir.ui.view">
+			<field name="name">IT Slab Form</field>
+			<field name="model">it.slab</field>
+			<field name="arch" type="xml">
+				<form class="oe_form_configuration">
+					<sheet>
+						<group col="4" colspan="4">
+							<field name="person_type"/>
+						</group>
+						<field name="it_slab_line_ids">
+							<tree editable="bottom">
+								<field name="from_amount"/>
+								<field name="to_amount"/>
+								<field name="tax_percent"/>
+								<field name="estimated_tax"/>
+							</tree>
+						</field>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="it_slab_tree" model="ir.ui.view">
+			<field name="name">IT Slab Tree</field>
+			<field name="model">it.slab</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="person_type"/>
+
+				</tree>
+			</field>
+		</record>
+		<record id="action_it_slab" model="ir.actions.act_window">
+			<field name="res_model">it.slab</field>
+			<field name="view_type">form</field>
+			<field name="name">IT Section</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem action="action_it_slab" id="menu_it_slab" name="IT Slabs" parent="hr.menu_human_resources_configuration"/>
+	</data>
+</odoo>

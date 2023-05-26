@@ -1,0 +1,9 @@
+<odoo>
+	<data>
+		<!--Appraisal -->
+		<menuitem name="Appraisal" parent="hr.menu_human_resources_configuration"
+			id="hr.menu_eval_hr_config10" sequence="96" />
+		<menuitem name="Periodic Appraisal" parent="hr.menu_human_resources_configuration"
+			id="hr.menu_eval_hr_config" sequence="4" />
+	</data>
+</odoo>

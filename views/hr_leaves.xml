@@ -1,0 +1,225 @@
+<odoo>
+	<data>
+		<!-- Workflows -->
+		<!-- <record model="im_livechat.channel.rule" id="hr_holidays.act_draft"> draft
+			<field name="wkf_id" ref="hr_holidays.wkf_holidays" />
+			<field name="name">draft</field>
+			<field name="flow_start" eval="True" />
+			<field name="kind">function</field>
+			<field name="action">holidays_reset()</field>
+		</record>
+ -->
+		<!-- <record model="workflow.activity" id="hr_holidays.act_confirm"> submitted
+			<field name="wkf_id" ref="hr_holidays.wkf_holidays" />
+			<field name="name">confirm</field>
+			<field name="flow_start" eval="False" />
+			<field name="kind">function</field>
+			<field name="action">holidays_confirm()</field>
+			<field name="split_mode">OR</field>
+		</record> -->
+
+	<!-- 	<record model="workflow.transition" id="hr_holidays.holiday_confirm2validate1"> 2. submitted -> first_accepted (validate signal) if double_validation
+			<field name="act_from" ref="hr_holidays.act_confirm" />
+			<field name="act_to" ref="hr_holidays.act_validate1" />
+			<field name="signal">validate</field>
+			<field name="condition">double_validation</field>
+			<field name="group_id" ref="base.group_sub_manager_user" />
+		</record> -->
+		<!-- <record model="workflow.transition" id="hr_holidays.holiday_confirm2refuse"> 2. submitted->refused (refuse signal)
+			<field name="act_from" ref="hr_holidays.act_confirm" />
+			<field name="act_to" ref="hr_holidays.act_refuse" />
+			<field name="signal">refuse</field>
+			<field name="condition">True</field>
+			<field name="group_id" ref="base.group_sub_manager_user" />
+		</record> -->
+
+		<!-- Views -->
+		<!-- <record id="edit_holiday_new_form_inherit" model="ir.ui.view">
+			<field name="name">hr.holidays.form</field>
+			<field name="model">hr.leave</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_holidays.edit_holiday_new" />
+			<field name="arch" type="xml"> -->
+				<!-- <xpath expr="//button[@name='confirm']" position="replace"> <button 
+					string="Confirm" name="holidays_confirm" states="draft" type="object" class="oe_highlight"/> 
+					</xpath> -->
+				<!-- <xpath expr="//button[@name='action_approve']" position="replace">
+					<button string="Approve" name="action_validate" states="confirm" 
+						class="oe_highlight" />
+				</xpath>
+				<xpath expr="//button[@name='action_refuse']" position="replace">
+					<button string="Refuse" name="action_refuse" states="confirm,validate1"
+						 groups="base.group_hr_user,base.group_sub_manager_user" />
+				</xpath>
+				<xpath expr="//button[@name='action_draft']" position="replace">
+					<button string="Reset to Draft" name="reset" 
+						invisible="1" />
+				</xpath>
+				<xpath expr="//button[@name='action_validate']" position="replace">
+					<button string="Validate" name="second_validate" states="validate1"
+						 groups="base.group_hr_user" class="oe_highlight" />
+				</xpath> -->
+				<!-- <xpath expr="//sheet/group[1]/group" position="inside">
+					<field name="flag" invisible="1"></field>
+					<field name="half_day"
+						attrs="{'readonly':['|',('state','!=','draft'),('flag','=',True)]}"></field>
+				</xpath>
+				<xpath expr="//sheet/group[1]/group" position="inside">
+				<field name = "evaluation_date_flag" invisible = "1"></field>
+					<field name="evaluation_from_date" attrs="{'invisible':['|',('evaluation_date_flag','=',False),('type','=','remove')],'required':[('evaluation_date_flag','=',True),('type','=','add')]}"></field>
+					<field name="evaluation_to_date" attrs="{'invisible':['|',('evaluation_date_flag','=',False),('type','=','remove')],'required':[('evaluation_date_flag','=',True),('type','=','add')]}"></field>
+				</xpath>
+			</field>
+		</record> -->
+	<!-- 	<record model="ir.actions.act_window" id="hr_holidays.open_department_holidays_approve">
+			<field name="name">Department Leaves</field>
+			<field name="res_model">hr.leave</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'search_default_department':1,
+				'search_default_approve':1}
+			</field>
+			<field name="domain">[('type','=','remove')]</field>
+			<field name="search_view_id" ref="hr_holidays.view_hr_holidays_filter" />
+		</record>
+
+		Hr Emp Categs Leaves
+		<record id="view_hr_category_leaves_form" model="ir.ui.view">
+			<field name="name">hr.category.leaves.form</field>
+			<field name="model">hr.category.leaves</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<field name="leave_type"></field>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_hr_category_leaves_tree" model="ir.ui.view">
+			<field name="name">hr.category.leaves.tree</field>
+			<field name="model">hr.category.leaves</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="leave_type"></field>
+				</tree>
+			</field>
+		</record>
+
+		Hr Emp Tags
+		<record id="view_employee_category_form_inherit" model="ir.ui.view">
+			<field name="name">hr.employee.category.form</field>
+			<field name="model">hr.employee.category</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr.view_employee_category_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//group" position="after">
+					<notebook>
+						<page string="Leave Types">
+							<field name="categ_leaves_ids">
+								<tree>
+									<field name="leave_type"></field>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+
+				</xpath>
+			</field>
+		</record>
+
+		Leave Types
+		<record id="view_edit_holiday_status_form_inherit_new" model="ir.ui.view">
+			<field name="name">hr.leave.type.inherit.form.view</field>
+			<field name="model">hr.leave.type</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_holidays.edit_holiday_status_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='name']" position="after">
+					<field name="interval_unit" select="2" required="1" />
+					<field name="leaves" />
+					<field name="is_paid" />
+					<field name="require_attachment" />
+					<field name="allow_carry_forward" />
+					<field name="allow_encashment" />
+					<field name="allow_half_days" />
+					<field name="allow_to_take_in_range" />
+					<field name="use_within_months" />
+					<field name="earn_quaterly" />
+					<field name="number_of_leaves_to_earn_quaterly" attrs="{'invisible':[('earn_quaterly','=',False)]}"/>
+					<field name="notify_before_elapse" />
+					<field name="notify_before_number_of_days" attrs="{'invisible':[('notify_before_elapse','=',False)]}"/>
+				</xpath>
+				<xpath expr="//field[@name='color_name']" position="replace">
+					<field name="is_paid" />
+				</xpath>
+				<xpath expr="//field[@name='categ_id']" position="replace">
+					<field name="require_attachment" />
+					<field name="allow_carry_forward" />
+					<field name="allow_encashment" />
+					<field name="allow_half_days" />
+					<field name="allow_to_take_in_range" />
+					<field name="use_within_months" />
+				</xpath>
+			</field>
+		</record>
+
+
+		<record model="ir.ui.view" id="hr_holidays.view_holiday_status_tree">
+			<field name="name">hr.holidays.status.tree</field>
+			<field name="model">hr.leave.type</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Leave Types">
+					<field name="name" />
+					<field name="leaves" />
+					<field name="active" />
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="hr_holidays.open_allocation_holidays"> 
+			<field name="name">Allocation Requests</field> <field name="res_model">hr.holidays</field> 
+			<field name="view_type">form</field> <field name="context">{ 'default_type':'add', 
+			'search_default_my_leaves':1, 'needaction_menu_ref': [ 'hr_holidays.menu_open_company_allocation', 
+			] } </field> <field name="domain">[('type','=','add')]</field> <field name="view_id" 
+			ref="hr_holidays.edit_holiday_new" /> <field name="search_view_id" ref="hr_holidays.view_hr_holidays_filter" 
+			/> </record>
+
+		<record model="ir.actions.act_window" id="action_leave_requests"> 
+			<field name="name">Leave Requests to Approve</field> <field name="res_model">hr.holidays</field> 
+			<field name="view_type">form</field> <field name="context">{ 'default_type':'add', 
+			'search_default_my_leaves':1, 'needaction_menu_ref': [ 'hr_holidays.menu_open_company_allocation', 
+			] } </field> <field name="domain">[('type','=','remove'),('employee_id.user_id.id','=',uid),('employee_id.parent_id.user_id.id','=',uid)]</field> 
+			<field name="view_id" ref="hr_holidays.edit_holiday_new" /> <field name="search_view_id" 
+			ref="hr_holidays.view_hr_holidays_filter" /> </record>
+
+		<record id="view_employee_holidays1234" model="ir.ui.view"> <field 
+			name="name">hr.holidays.form.inherit</field> <field name="model">hr.holidays</field> 
+			<field name="inherit_id" ref="hr_holidays.edit_holiday_new" /> <field name="arch" 
+			type="xml"> <xpath expr="//field[@name='name']" position="after"> <field 
+			name="flag"></field> </xpath> <xpath expr="//button[@name='validate']" position="replace"> 
+			<field name="flag"></field> <button string="Approve" name="validate" type="workflow" 
+			class="oe_highlight" states="confirm,validate1" attrs="{'invisible':[('flag','=',False)]}"/> 
+			</xpath> </field> </record>
+		<menuitem parent="hr_holidays.menu_hr_holidays_my_leaves" id="hr_holidays.menu_open_ask_holidays_new"
+			sequence="22" action="hr_holidays.open_ask_holidays" />
+
+		<menuitem parent="hr_holidays.menu_hr_holidays_my_leaves" id="hr_holidays.menu_open_allocation_holidays"
+			action="hr_holidays.open_allocation_holidays" sequence="40"
+			groups="hr.group_hr_user" />
+		<menuitem parent="hr_holidays.menu_hr_holidays_my_leaves" id="hr_holidays.menu_open_allocation_holidays" 
+			action="hr_holidays.open_allocation_holidays" sequence="40" groups="base.group_hr_user" 
+			/>
+		<menuitem parent="hr_holidays.menu_hr_holidays_my_leaves" id="hr_holidays.menu_open_allocation_holidays"
+			action="hr_holidays.open_allocation_holidays" sequence="40"
+			groups="base.group_user" />
+		<menuitem id = "leave_requests_to_approve" action="action_leave_requests" 
+			parent="hr_holidays.menu_hr_holidays_my_leaves"></menuitem>
+		<menuitem name="Leaves Summary" parent="hr_holidays.menu_hr_holidays_my_leaves"
+			id="hr_holidays.menu_open_company_allocation" sequence="21"
+			groups="base.group_no_one" /> -->
+	</data>
+</odoo>

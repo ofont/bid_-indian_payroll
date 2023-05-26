@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+	 <record id="payslip_batch_landscape" model="report.paperformat">
+			<field name="name">Payslip Batch</field> 
+			<field name="default" eval="True"/> 
+			<field name="format">A4</field> 
+			<field name="orientation">Landscape</field>
+			<field name="margin_top">40</field>
+			<field name="margin_bottom">20</field> 
+			<field name="margin_left">7</field> 
+			<field name="margin_right">7</field> 
+			<field name="header_line" eval="False"/> 
+			<field name="header_spacing">35</field> 
+			<field name="dpi">90</field> 
+		</record>
+		<report id="payslip_batch_report11" string="Payslip Batch" model="hr.payslip.run" report_type="qweb-pdf" file="indian_payroll.payslip_batch_report"
+			name="indian_payroll.payslip_batch_report"/>
+                <!-- <div class="header">
+                    <link rel="stylesheet" type="text/css"
+                        href="/indian_payroll/static/src/css/report_payslipsss.css" />
+                </div> -->
+
+
+
+		<template id="payslip_batch_report_document">
+		<xpath expr="//div[@class='header']" position="replace">
+		 <div class="header">
+        <div class="row">
+  <!--           <div class="col-xs-3">
+               <img class="img img-responsive" src="/indian_payroll/static/src/img/logo.jpg"
+                            style="max-height: 80px;" />
+            </div> -->
+            <div style="float:right;">
+                             <h4>Payslip Batch Report</h4>
+                        </div>
+        </div>
+        <div class="row zero_min_height">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3" name="company_address">
+                <p></p>
+            </div>
+        </div>
+    </div>
+                <!-- <div class="header">
+                    <link rel="stylesheet" type="text/css"
+                        href="/indian_payroll/static/src/css/report_payslipsss.css" />
+                </div> -->
+            </xpath>
+		 <h2>Salary Statement</h2>
+		 
+			<t t-call="web.external_layout">
+				<t t-foreach="docs" t-as="doc"/>
+				<div class="page">
+					<div class="header">
+						<div class="row">
+							<div class="col-xs-3" align="left" id="company_name">
+							</div>
+							<div class="col-xs-9">
+
+							</div>
+						</div>
+					</div>
+					<div  class="col-xs-3">
+							
+							<span align="center">
+								<tr t-foreach="doc.slip_ids[0]" t-as="s">
+								<h4 align="center">
+								<strong><span t-field="s.employee_id.company_id.name"/></strong>
+								</h4>
+								<h5 align="center">
+								<strong><span t-field="s.employee_id.company_id.partner_id.street"/></strong>
+								</h5>
+								<h5 align="center">
+							<span align="center">
+								<strong>Salary Statement</strong>
+							</span>
+							</h5>
+								</tr>
+							</span>
+						</div>
+					<div>
+						<div t-if="doc.name" class="col-xs-3">
+							<strong>Name:</strong>
+							<span t-field="doc.name"/>
+						</div>
+						<div class="col-xs-3">
+							<strong>Period:</strong>
+							<span t-field="doc.date_start"/>-<span t-field="doc.date_end"/>
+						</div>
+						<div class="col-xs-3">
+							<strong>Status:</strong>
+							<span t-field="doc.state"/>
+						</div>
+						</div>
+						<div>
+						<!-- <br/><div class="col-xs-3">
+						<span><strong>Payslips:</strong></span></div> --><br/><br/>
+						<table order="0" bordercolor="#cccccc" class="firsttable" style="border: 1px solid #808080;padding:3px">
+							<thead>
+
+								<tr style="bgcolor:#9F4D89" class="color_td">
+									<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										Sr.No.
+									</th>
+									<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										Emp Name
+									</th>
+									<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										Emp No.
+									</th>
+									<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										Paid Days
+									</th>
+									<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										Basic
+									</th>
+									<t t-set="colspan" t-value="doc.get_colspan('ALW')"/>
+									<th style="border: 1px solid #808080;padding:3px;text-align: center" t-att-colspan="colspan[0]" align="center">
+										Allowances
+									</th>
+									<th style="border: 1px solid #808080;padding:3px;text-align: center"  align="center">
+										Total Allowance
+									</th>
+									<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										Gross
+									</th>
+
+									<t t-set="colspan" t-value="doc.get_colspan('DED')"/>
+									<th style="border: 1px solid #808080;padding:3px;text-align: center" t-att-colspan="colspan[0]" align="center">
+										Deductions
+									</th>
+									<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										Total Deduction
+									</th>
+									
+
+									<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										Net Pay
+									</th>
+									<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										Bank Name
+									</th>
+									<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										Acc.No
+									</th>
+									<tr>
+										<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										</th>
+										<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										</th>
+										<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										</th>
+										<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										</th>
+										<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										</th>
+										<t t-foreach="doc.get_deduction_rules('ALW')" t-as="alw">
+											<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+												<span t-esc="alw"/>
+											</th>
+										</t>
+										<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										</th>
+										<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										</th>
+										<!-- <th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">nxbhd </th> -->
+										<t t-foreach="doc.get_deduction_rules('DED')" t-as="deduction">
+											<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+												<span t-esc="deduction"/>
+											</th>
+										</t>
+										<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										</th>
+										<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										</th>
+										<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										</th>
+										<th style="border: 1px solid #808080;padding:3px;text-align: center" align="center">
+										</th>
+									</tr>
+
+								</tr>
+							</thead>
+							<tbody class="sale_tbody">
+
+								<!-- To calculate grand total -->
+								<t t-set="sr_no" t-value="0"/>
+								<tr t-foreach="doc.slip_ids" t-as="s">
+
+									<t t-set="sr_no" t-value="sr_no+1"/>
+									<td style="border: 1px solid #808080;padding:3px;text-align: right">
+										<span t-esc="sr_no"/>
+									</td>
+									<td style="border: 1px solid #808080;padding:3px;text-align: right">
+										<span t-esc="s.employee_id.name"/>
+									</td>
+									<td style="border: 1px solid #808080;padding:3px;text-align: right">
+										<span t-esc="s.employee_id.code"/>
+									</td>
+									<td style="border: 1px solid #808080;padding:3px;text-align: right">
+										<span t-esc="s.get_no_days_paid()"/>
+									</td>
+									<td style="border: 1px solid #808080;padding:3px;text-align: right">
+										<span t-esc="doc.get_amt_by_code('BASIC',s)"/>
+									</td>
+									<t t-foreach="doc.alw_cat_list" t-as="cat">
+										<td style="border: 1px solid #808080;padding:3px;text-align: right">
+											<span t-esc="doc.get_amt_by_code(cat,s)"/>
+										</td>
+									</t>
+									<th style="border: 1px solid #808080;padding:3px;text-align: right" align="right">
+										<span t-esc="s.get_total(s,'ALW')"/>
+									</th>
+									<td style="border: 1px solid #808080;padding:3px;text-align: right">
+										<span t-esc="doc.get_amt_by_code('GROSS',s)"/>
+									</td>
+									<!-- <td style="border: 1px solid #808080;padding:3px;text-align: right"> </td> -->
+									<t t-foreach="doc.ded_cat_list" t-as="cat">
+										<td style="border: 1px solid #808080;padding:3px;text-align: right">
+											<span t-esc="doc.get_amt_by_code(cat,s)"/>
+										</td>
+									</t>
+									<th style="border: 1px solid #808080;padding:3px;text-align: right" align="right">
+										<span t-esc="s.get_total(s,'DED')"/>
+									</th>
+									<!-- Net pay -->
+									<th style="border: 1px solid #808080;padding:3px;text-align: right" align="right">
+										<span t-esc="doc.get_amt_by_code('NET',s)"/>
+									</th>
+									<td style="border: 1px solid #808080;padding:3px;text-align: right">
+										<span t-esc="s.employee_id.bank_account_id.bank_id.name"/>
+									</td>
+									<td style="border: 1px solid #808080;padding:3px;text-align: right">
+										<span t-esc="s.employee_id.bank_account_id.acc_number"/>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</t>
+		</template>
+		<template id="payslip_batch_report">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="indian_payroll.payslip_batch_report_document"/>
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>

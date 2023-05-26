@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<odoo>
+    <data>
+        <record forcecreate="True" id="ir_cron_birth" model="ir.cron">
+            <field name="name">Birthday scheduler</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="state">code</field>
+            <field name="code">model.send_birthday_email()</field>
+            <field eval="True" name="active"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+        
+        
+       <!--  <record id="account_asset_cron" model="ir.cron">
+        <field name="name">Account Asset: Generate asset entries</field>
+        <field name="model_id" ref="model_account_asset_asset"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_generate_entries()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">months</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record> -->
+     </data>
+</odoo>

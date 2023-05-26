@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+	<data>
+		<record id="hr_mail_complaints" model="mail.template">
+			<field name="name">HR Mail Complaints</field>
+			<field name="subject">Complaint</field>
+			<field name="email_from"><![CDATA[${object.complaint_against.user_id.company_id.name} <${(object.complaint_against.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.complaint_against.get_hr_email_id()}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_complaints" />
+			<field name="body_html">
+               <![CDATA[
+              A complaint has lodged with following details:
+              <br></br><br></br>
+               Complaint Against: ${object.complaint_against.name}
+               <br></br><br></br>
+               
+               
+               % if object.note:
+               		Note: ${object.note}
+               % endif
+               <br></br><br></br>
+               % if object.anonymous_user:
+               		Complained By: Anonymous User
+               % else:
+               		Complained By: ${object.complainer.name}
+               % endif
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=hr.complaints">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="emp_mail_complaints" model="mail.template">
+			<field name="name">Emp Mail Complaints</field>
+			<field name="subject">Complaint Lodged Successfully</field>
+			<field name="email_from"><![CDATA[${object.complaint_against.user_id.company_id.name} <${(object.complaint_against.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_complaints" />
+			<field name="body_html">
+               <![CDATA[
+              
+               Your complaint has been lodged successfully.
+               <br></br><br></br>
+               Complaint Against: ${object.complaint_against.name}
+               <br></br><br></br>
+               
+               
+               % if object.note:
+               		Note: ${object.note}
+               % endif
+               <br></br><br></br>
+               % if object.anonymous_user:
+               		Complained By: Anonymous User
+               % else:
+               		Complained By: ${object.complainer.name}
+               % endif
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=hr.complaints">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+
+		<!-- Close complaints -->
+
+		<record id="hr_mail_complaints_closed" model="mail.template">
+			<field name="name">HR Mail Complaints</field>
+			<field name="subject">Complaint Closed</field>
+			<field name="email_from"><![CDATA[${object.complaint_against.user_id.company_id.name} <${(object.complaint_against.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.complaint_against.get_hr_email_id()}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_complaints" />
+			<field name="body_html">
+               <![CDATA[
+              
+               Complaint Closed Successfully.
+               <br></br><br></br>
+               Complaint Against: ${object.complaint_against.name}
+               <br></br><br></br>
+               
+               % if object.note:
+               		Note: ${object.note}
+               % endif
+               <br></br><br></br>
+               % if object.anonymous_user:
+               		Complained By: Anonymous User
+               % else:
+               		Complained By: ${object.complainer.name}
+               % endif
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=hr.complaints">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+		<record id="emp_mail_complaints_closed" model="mail.template">
+			<field name="name">Emp Mail Complaints</field>
+			<field name="subject">Complaint Closed</field>
+			<field name="email_from"><![CDATA[${object.complaint_against.user_id.company_id.name} <${(object.complaint_against.user_id.company_id.email or user.email)|safe}>]]></field>
+			<field name="email_to">${object.employee_id.work_email}
+			</field>
+			<field name="model_id" ref="indian_payroll.model_hr_complaints" />
+			<field name="body_html">
+               <![CDATA[
+              
+               Your complaint against ${object.complaint_against.name} has been closed.
+               <br></br><br></br>
+               Complaint Against: ${object.complaint_against.name}
+               <br></br><br></br>
+               
+               % if object.note:
+               		Note: ${object.note}
+               % endif
+               <br></br><br></br>
+               % if object.anonymous_user:
+               		Complained By: Anonymous User
+               % else:
+               		Complained By: ${object.complainer.name}
+               % endif
+               <br/>
+               <br/>
+               <a href="http://192.168.0.128:8099/web#id=${object.id}&view_type=form&model=hr.complaints">Click here</a> to view.
+               <br/>
+               <br/>
+               <br/>
+               Note:This is an auto-generated mail. Please do not reply.
+               ]]>
+			</field>
+		</record>
+
+	</data>
+</odoo>

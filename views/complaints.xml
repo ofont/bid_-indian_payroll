@@ -1,0 +1,51 @@
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="view_grievance_form123">
+			<field name="name">Hr.Complaints.form</field>
+			<field name="model">hr.complaints</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="submit_mail" string="Submit" type="object" />
+						<button name="close_mail_send" string="Close" type="object"/>
+						<field name="state" widget="statusbar" />
+
+					</header>
+					<group >
+						<field name="complaint_against"/>
+						<field name="date"/>
+						<label for="action_get_attachment_view" string="Referance Doc"
+							 />
+						<button name="action_get_attachment_view" type="object" />
+						<field name="anonymous_user" />
+						<field name="complainer" />
+					</group>
+					<separator string="Notes" />
+					<group colspan="4">
+						<field name="note"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="view_hr_complaints_tree">
+			<field name="name">Hr.Complaints.tree</field>
+			<field name="model">hr.complaints</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="complaint_against" />
+					<field name="complainer" />
+					<field name="date" />
+				</tree>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="hr_complaints_action">
+			<field name="name">Complaints</field>
+			<field name="res_model">hr.complaints</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">['|',('employee_id.user_id','=',uid),('employee_id.hr_id.user_id','=',uid)]</field>
+		</record>
+		<menuitem parent="menu_hr_sub" id="hr_complaints_menu"
+			action="hr_complaints_action" sequence="5" />
+	</data>
+</odoo>

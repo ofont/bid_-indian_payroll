@@ -1,0 +1,60 @@
+<odoo>
+	<data>
+		<!--Time tracking -->
+		<menuitem parent="menu_hr_main_head" id="time_tracking_main" />
+		<menuitem id="hr_attendance.timesheet_menu_root" parent="menu_hr_main_head"
+			name="Timesheets" sequence="55"
+			groups="base.group_user,hr.group_hr_user,hr.group_hr_manager"
+			web_icon="hr_attendance,static/description/icon_timesheet.png" />
+	</data>
+
+	<!-- Public holidays -->
+
+	<record id="hr_public_holidays" model="ir.ui.view">
+		<field name="name">hr.public.holidays.form.inherit</field>
+		<field name="model">hr.public.holidays</field>
+		<field name="arch" type="xml">
+			<form>
+				<group>
+					<field name="name" />
+					<field name="date" />
+					<field name="day"></field>
+					<separator string="Comments" />
+					<field name="comment"></field>
+				</group>
+			</form>
+		</field>
+	</record>
+
+	<record id="hr_public_holidays_tree" model="ir.ui.view">
+		<field name="name">hr.public.holidays.tree.inherit</field>
+		<field name="model">hr.public.holidays</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name" />
+				<field name="date" />
+				<field name="day" readonly="0"></field>
+			</tree>
+		</field>
+	</record>
+	<record id="hr_public_holidays_action1" model="ir.actions.act_window">
+		<field name='name'>Public Holidays</field>
+		<field name='res_model'>hr.public.holidays</field>
+		<field name='view_type'>form</field>
+		<field name='view_mode'>tree,form</field>
+	</record>
+
+	<!-- <record id="hr_timesheet_sheet_form_inherit" model="ir.ui.view">
+		<field name="name">hr.timesheet.sheet.form.inherit</field>
+		<field name="model">hr_timesheet_sheet.sheet</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<xpath expr="//button[@name='button_confirm']" position="replace">
+				<button name="button_confirm" states="draft" string="Submit" type="object" class="oe_highlight"/>
+			</xpath>
+		</field>
+	</record> -->
+	<menuitem id="public_holiday_main_menu" name="Public Holidays"
+		parent="hr_holidays.menu_hr_holidays_root" action="indian_payroll.hr_public_holidays_action1"></menuitem>
+	<menuitem id="hr_timesheet.menu_hr_working_hours" parent="hr_timesheet.menu_hr_time_tracking" action="hr_timesheet.act_hr_timesheet_line_by_project" groups="base.group_no_one"/>
+</odoo>

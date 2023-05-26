@@ -1,0 +1,124 @@
+<odoo>
+	<data>
+
+		<!--HR Employee form view -->
+		<record id="view_employee_form_inherited" model="ir.ui.view">
+			<field name="name">hr.employee.form.inherit</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.view_employee_form" />
+			<field name="arch" type="xml">
+				<!-- <xpath expr="/form/sheet/notebook/page[2]" position="attributes"> -->
+				<xpath expr="//page[@name='personal_information']" position="attributes">
+					<attribute name="groups">base.group_user</attribute>
+				</xpath>
+				<xpath expr="//field[@name='work_phone']" position="after">
+					<field name="joining_date"></field>
+					<!-- <field name="offered_amount"></field> -->
+				</xpath>
+				<xpath expr="//field[@name = 'address_home_id']" position="replace">
+					<field name="address_home_id" context="{'show_address': 1}"
+						options='{"always_reload": True, "highlight_first_line": True}' />
+				</xpath>
+				<!-- <xpath expr="/form/sheet/notebook/page[3]" position="after"> -->
+				<xpath expr="//page[@name='hr_settings']" position="after">
+				
+					<page string="Employee Attachments">
+						<field name="employee_attach_ids" />
+					</page>
+					<page string="Asset Tracking">
+						<field name="asset_product_ids" nolabel="1">
+						<group>
+						<field name = "product_id"></field>
+						</group>
+						</field>
+					</page>
+				</xpath>
+				<!-- <xpath
+					expr="/form/sheet/notebook/page[@name='public']/group/group/field[@name='work_phone']"
+					position="after"> -->
+					<xpath expr="//field[@name='work_phone']" position="after">
+					<field name="code" />
+				</xpath>
+				<!-- <xpath
+					expr="/form/sheet/notebook/page[@name='public']/group/group/field[@name='work_phone']"
+					position="after"> -->
+					<xpath expr="//field[@name='work_phone']" position="after">
+					
+					<field name="related_customer" domain="[('customer','=',1)]" />
+					<field name="related_vendor" domain="[('supplier','=',1)]" />
+				</xpath>
+			</field>
+		</record>
+		<!--Group ids -->
+		<record id="view_employee_form_assign_rights_to_fields" model="ir.ui.view">
+			<field name="name">hr.employee.form.editable.list</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="view_employee_form_inherited" /> <!-- ref = 'module_name.form_view_id' -->
+			<field name="groups_id"
+				eval="[(6, 0, [ref('hr.group_hr_user'),ref('hr.group_hr_manager')])]" />
+			<field name="arch" type="xml">
+				<field name="job_id" position="attributes">
+					<attribute name="readonly">0</attribute>
+				</field>
+				<field name="department_id" position="attributes">
+					<attribute name="readonly">0</attribute>
+				</field>
+				<field name="joining_date" position="attributes">
+					<attribute name="readonly">0</attribute>
+				</field>
+			
+				<field name="code" position="attributes">
+					<attribute name="readonly">0</attribute>
+				</field>
+				<field name="work_email" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </field>
+                <!-- <field name="employee_attach_ids" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </field> -->
+                <field name="work_location" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </field>
+                <field name="bank_account_id" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </field>
+
+			</field>
+		</record>
+
+		<!--Organization Hierarchy -->
+
+		<record id="view_hr_emp_tree_hierarchy" model="ir.ui.view">
+			<field name="name">hr.employee.hierarchy</field>
+			<field name="model">hr.employee</field>
+			<field name="field_parent">children_ids</field>
+			<field name="arch" type="xml">
+				<tree string="HR Employee Hierarchy">
+					<field name="name" />
+					<field name="job_id" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_hr_emp_tree_hierarchy" model="ir.actions.act_window">
+			<field name="name">Hr Employee Hierarchy</field>
+			<field name="res_model">hr.employee</field>
+			<field name="view_type">tree</field>
+			<field name="view_id" ref="view_hr_emp_tree_hierarchy"/>
+			<field name="domain">[('parent_id','=',False)]</field>	
+		</record>
+
+		<menuitem id="menu_hr_emp_tree_hierarchy" name="Organization Hierarchy"
+			parent="menu_hr_sub" action="action_hr_emp_tree_hierarchy" />
+			
+		<!-- <menuitem id="base.menu_config_address_book" parent="base.menu_sale_config" name="Contacts" sequence="4" groups="base.group_hr_user"/> -->
+		<!-- <menuitem
+        id="mail.mail_channel_menu_root_chat"
+        name="Discuss"
+        action="mail.mail_channel_action_client_chat"
+        icon="fa-envelope"
+        web_icon="mail,static/description/icon.png"
+        groups="base.group_no_one"
+        sequence="1"/> -->
+	</data>
+</odoo>

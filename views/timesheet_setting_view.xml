@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<data>
+    <record id="res_config_form_timesheet_view_settings" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.timesheet</field>
+        <field name="model">setting.setting</field>
+        <field name="inherit_id" ref="hr_timesheet.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='section_leaves']" position="before">
+            <div name="timsheets_setting">
+               <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                    </header>
+					<group string="Settings">
+						<label for="id" string="Points Achieved Amount" />
+						<div>
+							<field name="point_achieved_amount" class="oe_inline"/>
+						</div>
+					</group>
+					<group string="Timesheet Settings">
+						<label for="id" string="Time Limit Per Day (24 Hours Format)" />
+						<div>
+							<field name="timesheet_time_per_day" widget="float_time" class="oe_inline "/>
+						</div>
+						<!--<label for="id" string="Time Limit Per Week (24 Hours Format)" />-->
+						<!--<div>-->
+							<!--<field name="timesheet_time_per_week" widget="float_time" class="oe_inline"/>-->
+						<!--</div>-->
+					</group>
+					</div>
+					<!-- <group string="Leaves">
+						<label for="id" string="Bussiness Date" />
+						<div>
+							<field name="company_bussiness_date" class="oe_inline"/>
+						</div>
+					</group> -->
+            </xpath>
+            
+        </field>
+    </record>
+    </data>
+
+</odoo>
